@@ -24,3 +24,4 @@ Route::get("/comics/create", [ComicsController::class, "create"])->name("comics.
 // le parentisi {} stanno a segnare un valore dinamico e vanno messe prima dei valori statici per non creare "conflitto"
 Route::get("/comics/{comic}", [ComicsController::class, "show"])->name("comics.show");
 Route::post("/comics", [ComicsController::class, "store"])->name("comics.store");
+Route::get("/comics/{comic}/edit", [ComicsController::class, "edit"])->name("comics.edit");

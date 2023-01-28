@@ -12,6 +12,7 @@
             <a href="{{route("home")}}"><button class="btn btn-primary">Home</button></a>
         </div>
         <div class="row">
+            @@foreach ($comics as $comic)
             <div class="col">
                 <div class="card">
                     <img src="" class="img-fluid">
@@ -26,6 +27,6 @@
             e il form con method:post e il @method delete con il js per chiedere la conferma
              --}}
         </div>
-
+        @endforeach     
     </div>
 @endsection

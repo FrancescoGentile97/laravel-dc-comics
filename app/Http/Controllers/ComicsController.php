@@ -39,8 +39,9 @@ class ComicsController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $comics = new Comic();
-        $comics->save();
+        $comic = new Comic();
+        $comic->title = $data["title"];
+        $comic->save();
     }
 
     /**
@@ -63,7 +64,8 @@ class ComicsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $comic = Comic::findOrFail($id);
+        return view("comics.edit", compact("comic"));
     }
 
     /**
