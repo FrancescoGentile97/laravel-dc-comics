@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Comic;
+use App\Http\Controllers\ComicsController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/", [Comic::class, "home"])->name("home");
-Route::get("/", [Comic::class, "comics"])->name("comics");
+Route::get("/", [HomeController::class, "home"])->name("home");
 
-Route::get("/comics", [Comic::class, "index"])->name("comics.index");
-Route::get("/comics/create", [Comic::class, "create"])->name("comics.create");
+
+Route::get("/comics", [ComicsController::class, "index"])->name("comics.index");
+Route::get("/comics/create", [ComicsController::class, "create"])->name("comics.create");
 // le parentisi {} stanno a segnare un valore dinamico e vanno messe prima dei valori statici per non creare "conflitto"
-Route::get("/comics/{comic}", [Comic::class, "show"])->name("comics.show");
-Route::post("/comics", [Comic::class, "store"])->name("comics.store");
+Route::get("/comics/{comic}", [ComicsController::class, "show"])->name("comics.show");
+Route::post("/comics", [ComicsController::class, "store"])->name("comics.store");
