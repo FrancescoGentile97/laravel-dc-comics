@@ -7,8 +7,16 @@ use App\Models\Comic;
 use Illuminate\Http\Request;
 
 
-class ComicsController extends Controller
-{
+class ComicsController extends Controller{
+    private $validationArray = [
+        "title" => "required|max:255",
+        "description" => "required|string|min:20",
+        "thumb" => "string|url",
+        "series" => "required|max:255",
+        "price" => "required|int",
+        "sale_date" => "required|date"
+
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -36,12 +44,14 @@ class ComicsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $data = $request->all();
-        $comic = new Comic();
-        $comic->title = $data["title"];
-        $comic->save();
+    public function store(Request $request){
+        $data = $request->validated();
+        // $data = $request->all();
+        // $comic = new Comic();
+        // $comic->title = $data["title"];
+        // $comic->save();
+        $comic = Comic::create($data);
+        return redirect()->route("comics.show", $comic->id);
     }
 
     /**
@@ -75,13 +85,14 @@ class ComicsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Comic $comic)
     {
-        $data = $request->all();
-        $comic = Comic::findOrFail($id);
-        $comic->upade($data);
+        $data = $request->validated();
+        // $comic = Comic::findOrFail($id);
+        // $comic->upade($data);
         // qui va inserito il redirect per rimandare l'utente dove vogliamo
         // non per forza nell'index.
+        $comic->update($data);
         return redirect()->route("comics.index,$comic->id");
     }
 
@@ -98,4 +109,20 @@ class ComicsController extends Controller
         // anche qui va inserito il redirect dopo aver cancellato l'elemento
         return redirect()->route("comics.index");
     }
+    private function validation($data){
+        $result = Validator::make($data, [
+            "title" => "required|max:255",
+            "description" => "required|string",
+            "thumb" => "string|url",
+            "series" => "required|max:255",
+            "price" => "required|int",
+            "sale_date" => "required|date"
+        ], [
+                "title.required" => "Inserisci il titolo",
+                "description.min" => "La descrizione deve contenere minimo 20 caratteri.",
+                "series.required" => "Inserisci la serie",
+            ])->validate();
+        return $result;
+    }
 }
+
