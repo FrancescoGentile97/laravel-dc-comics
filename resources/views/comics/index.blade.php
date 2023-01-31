@@ -8,11 +8,12 @@
         <div class="text-center">
             <h1>Lista Fumetti:</h1>
             {{-- inserire i due bottoni uno per la home e uno per "l'add" --}}
-            <a href=""><button class="btn btn-success"></button></a>
+            <a href="{{route("comics.create")}}"><button class="btn btn-success">Aggiungi</button></a>
             <a href="{{route("home")}}"><button class="btn btn-primary">Home</button></a>
         </div>
+        
         <div class="row">
-            @@foreach ($comics as $comic)
+            @foreach ($comics as $comic)
             <div class="col">
                 <div class="card">
                     <img src="" class="img-fluid">

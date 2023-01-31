@@ -77,7 +77,12 @@ class ComicsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $comic = Comic::findOrFail($id);
+        $comic->upade($data);
+        // qui va inserito il redirect per rimandare l'utente dove vogliamo
+        // non per forza nell'index.
+        return redirect()->route("comics.index,$comic->id");
     }
 
     /**
@@ -88,6 +93,9 @@ class ComicsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $comic = Comic::findOrFail($id);
+        $comic->delete();
+        // anche qui va inserito il redirect dopo aver cancellato l'elemento
+        return redirect()->route("comics.index");
     }
 }
