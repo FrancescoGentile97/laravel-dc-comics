@@ -8,13 +8,41 @@
     <div class="text-center">
         <h1>Aggiungi un Fumetto</h1>
     </div>
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        Dati non corretti:
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{$error}}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
     <form action="{{route("comics.store")}}" method="post"></form>
     @csrf
     <label class="form-label">Titolo:</label>
-    <input type="text" name="title" class="form-cotrol">
+    <input class="form-control @error(`title`) is-invalid @elseif(old(`title`)) is-valid @enderror"
+    type="text" name="title" value="{{$errors->has(`title`) ? `` : old(`title`)}}">
+
+    {{-- creare l'error per il "title" (se c'è) altrimenti mettere il "verde" --}}
+    @error(`title`)
+    <div class="invalid-feedback">
+        {{$message}}
+    </div>
+    @elseif(old(`title`))
+    <div class="valid-feedback">
+        Dati corretti!
+    </div>
+    @enderror
 
     <label class="form-label">Descrizione:</label>
-    <input type="text" name="description" class="form-cotrol">
+    <textarea name="description" cols="30" rows="10"
+     class="from-control @error(`description`) is-invalid @enderror">{{`description`}}</textarea>
+     @error('description')
+        <div class="invalid-feedback">
+            {{$message}}
+        </div>
+     @enderror
 
     <label class="form-label">Serie:</label>
     <input type="text" name="series" class="form-cotrol">
